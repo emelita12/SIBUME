@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Farmacia</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f4f8;
+      color: #2d3748;
+    }
+
+    header {
+      background: #2b6cb0;
+      color: white;
+      padding: 1.5rem 2rem;
+    }
+
+    header h1 { font-size: 1.6rem; }
+    header p { font-size: 0.9rem; opacity: 0.8; margin-top: 0.2rem; }
+
+    .search-bar {
+      max-width: 500px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .search-bar input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      border: 2px solid #cbd5e0;
+      border-radius: 8px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .search-bar input:focus { border-color: #2b6cb0; }
+
+    #count {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #718096;
+      margin-top: 0.5rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+      padding: 1rem 2rem 3rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: white;
+      border-radius: 10px;
+      padding: 1rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .card .nombre {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .card .concentracion {
+      font-size: 0.8rem;
+      color: #718096;
+    }
+
+    .card .cantidad {
+      margin-top: auto;
+      font-size: 0.8rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      display: inline-block;
+      font-weight: 500;
+    }
+
+    .card .cantidad.ok { background: #c6f6d5; color: #276749; }
+    .card .cantidad.agotado { background: #fed7d7; color: #9b2c2c; }
+
+    .no-results {
+      text-align: center;
+      padding: 3rem;
+      color: #a0aec0;
+      font-size: 1rem;
+      grid-column: 1 / -1;
+    }
+  </style>
+</head>
+<body>
+
+<header style="display: flex; justify-content: space-between; align-items: center;">
+  <div>
+    <h1>Farmacia</h1>
+    <p>Busca medicamentos disponibles</p>
+  </div>
+  <a href="{% url 'login' %}" style="color: white; text-decoration: none; font-weight: 600; padding: 0.5rem 1rem; border: 2px solid white; border-radius: 8px; transition: background 0.2s;">Iniciar Sesión</a>
+</header>
+
+<form class="search-bar" method="get" action="">
+  <input type="text" name="q" value="{{ query }}" placeholder="Buscar por nombre..." autofocus>
+  <div id="count">
+    {% if query %}
+      {{ medicamentos|length }} de {{ total }} medicamentos
+    {% else %}
+      {{ total }} medicamentos
+    {% endif %}
+  </div>
+</form>
+
+<div class="grid">
+  {% for m in medicamentos %}
+  <div class="card">
+    <span class="nombre">{{ m.nombre }}</span>
+    <span class="concentracion">{{ m.concentracion }}</span>
+    {% if m.cantidad == 0 %}
+      <span class="cantidad agotado">Agotado</span>
+    {% else %}
+      <span class="cantidad ok">Cantidad: {{ m.cantidad }}</span>
+    {% endif %}
+  </div>
+  {% endfor %}
+  {% if not medicamentos %}
+  <div class="no-results">No se encontraron medicamentos.</div>
+  {% endif %}
+</div>
+
+</body>
+</html>

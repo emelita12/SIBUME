@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Farmacia</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f4f8;
+      color: #2d3748;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      background: #2b6cb0;
+      color: white;
+      padding: 1.5rem 2rem;
+      text-align: center;
+    }
+
+    header h1 { font-size: 1.6rem; }
+    header p { font-size: 0.9rem; opacity: 0.8; margin-top: 0.2rem; }
+
+    .login-container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+    }
+
+    .login-card {
+      background: white;
+      border-radius: 10px;
+      padding: 2rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      width: 100%;
+      max-width: 400px;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .login-card h2 {
+      text-align: center;
+      color: #2b6cb0;
+      font-size: 1.4rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .form-group label {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #4a5568;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      border: 2px solid #cbd5e0;
+      border-radius: 8px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .form-group input:focus { border-color: #2b6cb0; }
+
+    .login-button {
+      background: #2b6cb0;
+      color: white;
+      border: none;
+      padding: 0.8rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 0.5rem;
+    }
+
+    .login-button:hover { background: #2c5282; }
+
+    .back-link {
+      text-align: center;
+      font-size: 0.85rem;
+      margin-top: 0.5rem;
+    }
+
+    .back-link a {
+      color: #2b6cb0;
+      text-decoration: none;
+    }
+
+    .back-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Farmacia</h1>
+  <p>Acceso al sistema</p>
+</header>
+
+<div class="login-container">
+  <!-- El action apunta al inicio para hacer un login simulado y básico -->
+  <form class="login-card" method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+    <h2>Iniciar Sesión</h2>
+    
+    {% if error %}
+    <p style="color: #e53e3e; text-align: center; font-size: 0.9rem; font-weight: 600; margin-bottom: 0.5rem;">{{ error }}</p>
+    {% endif %}
+
+    <div class="form-group">
+      <label for="username">Usuario</label>
+      <input type="text" id="username" name="username" placeholder="Ingresa tu usuario" required autofocus>
+    </div>
+    
+    <div class="form-group">
+      <label for="password">Contraseña</label>
+      <input type="password" id="password" name="password" placeholder="Ingresa tu contraseña" required>
+    </div>
+    
+    <button type="submit" class="login-button">Entrar</button>
+
+    <div class="back-link">
+      <a href="{% url 'index' %}">Volver a la búsqueda</a>
+    </div>
+  </form>
+</div>
+
+</body>
+</html>
